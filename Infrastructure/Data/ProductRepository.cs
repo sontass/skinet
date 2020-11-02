@@ -1,15 +1,14 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Core.Entities;
-using Core.interfaces;
 using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Data
 {
-    public class ProductRespository : IProductRespository
+    public class ProductRepository
     {
         private readonly StoreContext _context;
-        public ProductRespository(StoreContext context)
+        public ProductRepository(StoreContext context)
         {
             _context = context;
         }
