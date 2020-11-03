@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Core.Entities;
 
-namespace Core.interfaces
+namespace Core.Interfaces
 {
     public interface IProductRepository
     {

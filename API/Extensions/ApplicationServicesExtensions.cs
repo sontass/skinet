@@ -1,6 +1,6 @@
 using System.Linq;
 using API.Errors;
-using Core.interfaces;
+using Core.Interfaces;
 using Infrastructure.Data;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;

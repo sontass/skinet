@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Core.Entities;
-using Core.interfaces;
+using Core.Interfaces;
 using Core.Specifications;
 using Microsoft.EntityFrameworkCore;
 
@@ -36,6 +36,11 @@ namespace Infrastructure.Data
 
         private IQueryable<T> ApplySpecification(ISpecification<T> spec) {
             return SpecificationEvaluator<T>.GetQuery(_context.Set<T>().AsQueryable() , spec);
+        }
+
+        public Task<int> CountAsync(ISpecification<T> spec)
+        {
+            return ApplySpecification(spec).CountAsync();
         }
     }
 }

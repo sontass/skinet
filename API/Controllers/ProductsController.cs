@@ -3,9 +3,10 @@ using System.Linq;
 using System.Threading.Tasks;
 using API.Dtos;
 using API.Errors;
+using API.Helpes;
 using AutoMapper;
 using Core.Entities;
-using Core.interfaces;
+using Core.Interfaces;
 using Core.Specifications;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -28,13 +29,18 @@ namespace API.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IReadOnlyList<ProductToReturnDto>>> GetProducts()
+        //public async Task<ActionResult<IReadOnlyList<ProductToReturnDto>>> GetProducts(string sort , int? brandId , int? typeId)
+        //public async Task<ActionResult<IReadOnlyList<ProductToReturnDto>>> GetProducts([FromQuery]ProductSpecParams productParams)
+        public async Task<ActionResult<Pagination<ProductToReturnDto>>> GetProducts([FromQuery]ProductSpecParams productParams)
         {
             // var products = await _repo.GetProductsAsync();
             // return Ok(products);
             //return Ok ( await _productsRepo.ListAllAsync()  );
 
-            var spec = new ProductsWithTypesAndBrandsSpecification();
+            //var spec = new ProductsWithTypesAndBrandsSpecification(params.sort , brandId , typeId);
+            var spec = new ProductsWithTypesAndBrandsSpecification(productParams);
+            var countSpec = new ProductWithFilterForCountSpecificiation(productParams);
+            var totalItems = await _productsRepo.CountAsync(countSpec);
 
             var products = await _productsRepo.ListAsync(spec);
 
@@ -44,10 +50,14 @@ namespace API.Controllers
             //     Name = product.Name
             // }).ToList();
 
-            return Ok(
-                _mapper.Map<IReadOnlyList<Product> , IReadOnlyList<ProductToReturnDto>>(products)
-            );
+            // return Ok(
+            //     _mapper.Map<IReadOnlyList<Product> , IReadOnlyList<ProductToReturnDto>>(products)
+            // );
             //return Ok( products );
+
+            var data = _mapper.Map<IReadOnlyList<Product> , IReadOnlyList<ProductToReturnDto>>(products);
+
+            return Ok(new Pagination<ProductToReturnDto>(productParams.PageIndex , productParams.PageSize , totalItems , data));
         }
 
         [HttpGet("{id}")]
