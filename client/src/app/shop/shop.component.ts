@@ -12,10 +12,10 @@ import { ShopService } from './shop.service';
   styleUrls: ['./shop.component.scss']
 })
 export class ShopComponent implements OnInit {
-  @ViewChild('search' , {static: true}) searchTerm: ElementRef;
+  @ViewChild('search' , {static: false}) searchTerm: ElementRef;
   products: IProduct[];
   brands: IBrand[];
-  productTypes: IProductType[];
+  types: IProductType[];
   shopParams = new ShopParams();
   totalCount: number;
 
@@ -54,7 +54,7 @@ export class ShopComponent implements OnInit {
 
   getTypes(): void {
     this.shopService.getTypes().subscribe(
-      (res: IProductType[]) => this.productTypes = [{id: 0 , name: 'All'} , ...res],
+      (res: IProductType[]) => this.types = [{id: 0 , name: 'All'} , ...res],
       error => console.log(error)
     );
   }
@@ -90,7 +90,7 @@ export class ShopComponent implements OnInit {
     this.getProducts();
   }
 
-  onRest(): void {
+  onReset(): void {
     this.searchTerm.nativeElement.value = '';
     this.shopParams = new ShopParams();
     this.getProducts();

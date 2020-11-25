@@ -1,7 +1,7 @@
+import { CarouselModule } from 'ngx-bootstrap/carousel';
 import { PaginationModule } from 'ngx-bootstrap/pagination';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ShopModule } from '../shop/shop.module';
 import { PagingHeaderComponent } from './components/paging-header/paging-header.component';
 import { PagerComponent } from './components/pager/pager.component';
 
@@ -12,8 +12,9 @@ import { PagerComponent } from './components/pager/pager.component';
   declarations: [PagingHeaderComponent, PagerComponent],
   imports: [
     CommonModule,
+    CarouselModule.forRoot(),
     PaginationModule.forRoot()
   ],
-  exports: [PaginationModule , PagingHeaderComponent , PagerComponent]
+  exports: [PaginationModule , CarouselModule , PagingHeaderComponent , PagerComponent]
 })
 export class SharedModule { }
